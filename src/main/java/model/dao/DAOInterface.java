@@ -59,6 +59,6 @@ public interface DAOInterface {
     // urgentes creadas (más incidencias urgentes primero).
 
     //public List<RankingTO> getRankingEmpleados();
-    public void createTable(String tableName,List<AttributeDefinition> attributes) throws InterruptedException;
+    public void createTable(String tableName) throws InterruptedException;
 
 }
