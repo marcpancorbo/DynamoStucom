@@ -25,6 +25,8 @@ public interface DAOInterface {
     // Método para eliminar un empleado.
     public void removeEmpleado(Empleado e);
 
+    public <T> Object getPOJOById(int id, Class<T> clazz);
+
     // Obtener una Incidencia a partir de su Id.
     public Incidencia getIncidenciaById(int id);
 

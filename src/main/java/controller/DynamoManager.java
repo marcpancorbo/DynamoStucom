@@ -1,6 +1,7 @@
 package controller;
 
 import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
+import model.Empleado;
 import model.dao.DAOInterfaceImpl;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
@@ -28,5 +29,12 @@ public class DynamoManager {
     public void createTableWorker() throws InterruptedException {
 
         dao.createTable("Worker");
+    }
+
+    public void storeWorker(Empleado worker){
+        dao.insertEmpleado(worker);
+    }
+    public Empleado getWorkerById(int id){
+        return (Empleado)dao.getPOJOById(id,Empleado.class);
     }
 }

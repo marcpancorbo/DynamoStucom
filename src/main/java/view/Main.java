@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.model.*;
 import controller.DynamoManager;
+import model.Empleado;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +17,15 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
-        manager.createTableWorker();
-
+        Empleado worker = new Empleado();
+        worker.setName("Paco");
+        worker.setPassword("1234");
+        worker.setPhoneNumber("654023488");
+        worker.setId(1);
+        worker.setUserName("Pakito");
+        manager.storeWorker(worker);
+        Empleado worker2 =manager.getWorkerById(1);
+        System.out.println(worker2.getUserName());
     }
 
 }

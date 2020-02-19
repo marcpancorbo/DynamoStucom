@@ -1,11 +1,11 @@
 package model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 @DynamoDBTable(tableName = "Worker")
-public class Empleado  extends Identifiable{
-
+public class Empleado {
     private Integer id;
     private String userName;
     private String password;
@@ -39,6 +39,13 @@ public class Empleado  extends Identifiable{
         this.name = name;
     }
 
+    @DynamoDBHashKey(attributeName = "Id")
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
     @DynamoDBAttribute(attributeName = "Phonenumber")
     public String getPhoneNumber() {
         return phoneNumber;

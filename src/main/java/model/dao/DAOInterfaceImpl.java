@@ -2,6 +2,7 @@ package model.dao;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.model.*;
@@ -15,15 +16,17 @@ import java.util.List;
 public class DAOInterfaceImpl implements DAOInterface {
     private AmazonDynamoDB client;
     private DynamoDB dynamoDB;
+    private DynamoDBMapper mapper;
 
     public DAOInterfaceImpl() {
         client = AmazonDynamoDBClientBuilder.standard().build();
         dynamoDB = new DynamoDB(client);
+        mapper = new DynamoDBMapper(client);
     }
 
     @Override
     public void insertEmpleado(Empleado e) {
-
+        mapper.save(e);
     }
 
     @Override
@@ -82,6 +85,7 @@ public class DAOInterfaceImpl implements DAOInterface {
         attributeDefinitions.add(new AttributeDefinition().withAttributeName("Id").withAttributeType("N"));
         List<KeySchemaElement> keySchema = new ArrayList<KeySchemaElement>();
         keySchema.add(new KeySchemaElement().withAttributeName("Id").withKeyType(KeyType.HASH));
+        keySchema.add(new KeySchemaElement().withAttributeName("Username").withKeyType(KeyType.HASH));
         CreateTableRequest request = new CreateTableRequest()
                 .withTableName(tableName).withKeySchema(keySchema)
                 .withAttributeDefinitions(attributeDefinitions).withProvisionedThroughput(new ProvisionedThroughput()
@@ -89,6 +93,11 @@ public class DAOInterfaceImpl implements DAOInterface {
                         .withWriteCapacityUnits(6L));
         Table table = dynamoDB.createTable(request);
         table.waitForActive();
+    }
+
+    @Override
+    public <T> Object getPOJOById(int id, Class<T> clazz){
+        return mapper.load(clazz,id);
     }
 
     /*
