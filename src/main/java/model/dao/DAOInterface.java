@@ -1,5 +1,6 @@
 package model.dao;
 
+import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
 import model.Empleado;
 import model.Evento;
 import model.Incidencia;
@@ -58,6 +59,6 @@ public interface DAOInterface {
     // urgentes creadas (más incidencias urgentes primero).
 
     //public List<RankingTO> getRankingEmpleados();
-    public void createTable(String tableName) throws InterruptedException;
+    public void createTable(String tableName,List<AttributeDefinition> attributes) throws InterruptedException;
 
 }
