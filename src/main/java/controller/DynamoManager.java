@@ -1,5 +1,6 @@
 package controller;
 
+import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
 import model.Empleado;
 import model.Incidencia;
@@ -31,6 +32,7 @@ public class DynamoManager {
 
         dao.createTable("Worker");
     }
+    public Table getTableByName(String name){return dao.getTableByName(name);}
     public void createTableIncidencia() throws InterruptedException {
         dao.createTable("Incidencia");
     }

@@ -19,15 +19,7 @@ public class Main {
     private static DynamoManager manager = DynamoManager.getInstance();
 
     public static void main(String[] args) throws InterruptedException {
-        Incidencia incidencia = new Incidencia();
-        incidencia.setDate(new Date());
-        incidencia.setOrigin("Gava");
-        incidencia.setDestination("Barcelona");
-        incidencia.setDetail("Detail");
-        incidencia.setType("normal");
-        manager.storeIncidencia(incidencia);
-        Incidencia incidencia1 = manager.getIncidenciaById(2);
-        System.out.println(incidencia1.getDestination());
+        manager.createTableWorker();
     }
 
 }

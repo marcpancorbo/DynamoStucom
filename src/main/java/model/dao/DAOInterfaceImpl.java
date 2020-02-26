@@ -82,7 +82,7 @@ public class DAOInterfaceImpl implements DAOInterface {
     @Override
     public void createTable(String tableName) throws InterruptedException {
         List<AttributeDefinition> attributeDefinitions = new ArrayList<AttributeDefinition>();
-        attributeDefinitions.add(new AttributeDefinition().withAttributeName("Id").withAttributeType("N"));
+        attributeDefinitions.add(new AttributeDefinition().withAttributeName("Id").withAttributeType("S"));
         List<KeySchemaElement> keySchema = new ArrayList<KeySchemaElement>();
         keySchema.add(new KeySchemaElement().withAttributeName("Id").withKeyType(KeyType.HASH));
         CreateTableRequest request = new CreateTableRequest()
@@ -92,6 +92,11 @@ public class DAOInterfaceImpl implements DAOInterface {
                         .withWriteCapacityUnits(6L));
         Table table = dynamoDB.createTable(request);
         table.waitForActive();
+    }
+
+    @Override
+    public Table getTableByName(String table) {
+        return dynamoDB.getTable(table);
     }
 
     @Override

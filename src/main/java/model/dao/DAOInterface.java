@@ -1,5 +1,6 @@
 package model.dao;
 
+import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
 import model.Empleado;
 import model.Evento;
@@ -49,9 +50,9 @@ public interface DAOInterface {
     // Pasaremos como parámetro un objeto tipo evento, y no devolverá nada.
     // Llamaremos a este método desde los métodos
     // que producen los eventos, que son 3:
-    // 1) Cuando un usuario hace login 
-    // 2) Cuando un usuario crea una incidencia de tipo urgente 
-    // 3) Cuando se consultan las incidencias destinadas a un usuario 
+    // 1) Cuando un usuario hace login
+    // 2) Cuando un usuario crea una incidencia de tipo urgente
+    // 3) Cuando se consultan las incidencias destinadas a un usuario
     public void insertarEvento(Evento e);
 
     // Obtener la fecha-hora del último inicio de sesión para un empleado.
@@ -62,5 +63,5 @@ public interface DAOInterface {
 
     //public List<RankingTO> getRankingEmpleados();
     public void createTable(String tableName) throws InterruptedException;
-
+    Table getTableByName(String table);
 }
