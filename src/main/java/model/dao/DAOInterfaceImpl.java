@@ -3,6 +3,8 @@ package model.dao;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.model.*;
@@ -45,13 +47,14 @@ public class DAOInterfaceImpl implements DAOInterface {
     }
 
     @Override
-    public Incidencia getIncidenciaById(int id) {
-        return null;
+    public Incidencia getIncidenciaById(String id) {
+        return mapper.load(Incidencia.class, id);
     }
 
     @Override
     public List<Incidencia> selectAllIncidencias() {
-        return null;
+        DynamoDBScanExpression expression = new DynamoDBScanExpression();
+        return mapper.scan(Incidencia.class, expression);
     }
 
     @Override
@@ -100,7 +103,13 @@ public class DAOInterfaceImpl implements DAOInterface {
     }
 
     @Override
-    public <T> Object getPOJOById(int id, Class<T> clazz){
+    public <T> List<T>  getAllPOJOFromTable(Class<T> clazz, String table) {
+        DynamoDBScanExpression expression = new DynamoDBScanExpression();
+        return mapper.scan(clazz, expression);
+    }
+
+    @Override
+    public <T> Object getPOJOById(String id, Class<T> clazz){
         return mapper.load(clazz,id);
     }
 

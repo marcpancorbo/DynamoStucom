@@ -41,7 +41,7 @@ public class DynamoManager {
     public void storeWorker(Empleado worker){
         dao.insertEmpleado(worker);
     }
-    public Empleado getWorkerById(int id){
+    public Empleado getWorkerById(String id){
         return (Empleado)dao.getPOJOById(id,Empleado.class);
     }
 
@@ -49,7 +49,10 @@ public class DynamoManager {
         dao.createTable("Evento");
     }
 
-    public Incidencia getIncidenciaById(int id){
+    public Incidencia getIncidenciaById(String id){
         return (Incidencia)dao.getPOJOById(id, Incidencia.class);
+    }
+    public List<Incidencia> findIncidencia(){
+        return dao.getAllPOJOFromTable(Incidencia.class, "Incidencia");
     }
 }

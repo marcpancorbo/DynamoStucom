@@ -26,10 +26,10 @@ public interface DAOInterface {
     // Método para eliminar un empleado.
     public void removeEmpleado(Empleado e);
 
-    public <T> Object getPOJOById(int id, Class<T> clazz);
+    public <T> Object getPOJOById(String id, Class<T> clazz);
 
     // Obtener una Incidencia a partir de su Id.
-    public Incidencia getIncidenciaById(int id);
+    public Incidencia getIncidenciaById(String id);
 
     // Obtener una lista de todas las incidencias
     public List<Incidencia> selectAllIncidencias();
@@ -64,4 +64,5 @@ public interface DAOInterface {
     //public List<RankingTO> getRankingEmpleados();
     public void createTable(String tableName) throws InterruptedException;
     Table getTableByName(String table);
+   <T> List<T>  getAllPOJOFromTable(Class<T> clazz, String table);
 }
