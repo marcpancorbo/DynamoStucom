@@ -2,6 +2,7 @@ package controller;
 
 import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
 import model.Empleado;
+import model.Incidencia;
 import model.dao.DAOInterfaceImpl;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
@@ -34,10 +35,14 @@ public class DynamoManager {
         dao.createTable("Incidencia");
     }
 
+    public void storeIncidencia(Incidencia incidencia){dao.insertIncidencia(incidencia);}
     public void storeWorker(Empleado worker){
         dao.insertEmpleado(worker);
     }
     public Empleado getWorkerById(int id){
         return (Empleado)dao.getPOJOById(id,Empleado.class);
+    }
+    public Incidencia getIncidenciaById(int id){
+        return (Incidencia)dao.getPOJOById(id, Incidencia.class);
     }
 }
