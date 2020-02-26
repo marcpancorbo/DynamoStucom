@@ -30,6 +30,9 @@ public class DynamoManager {
 
         dao.createTable("Worker");
     }
+    public void createTableIncidencia() throws InterruptedException {
+        dao.createTable("Incidencia");
+    }
 
     public void storeWorker(Empleado worker){
         dao.insertEmpleado(worker);

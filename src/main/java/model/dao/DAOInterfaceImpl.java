@@ -56,7 +56,7 @@ public class DAOInterfaceImpl implements DAOInterface {
 
     @Override
     public void insertIncidencia(Incidencia i) {
-
+        mapper.save(i);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class DAOInterfaceImpl implements DAOInterface {
 
     @Override
     public void insertarEvento(Evento e) {
-
+        mapper.save(e);
     }
 
     @Override
@@ -85,7 +85,6 @@ public class DAOInterfaceImpl implements DAOInterface {
         attributeDefinitions.add(new AttributeDefinition().withAttributeName("Id").withAttributeType("N"));
         List<KeySchemaElement> keySchema = new ArrayList<KeySchemaElement>();
         keySchema.add(new KeySchemaElement().withAttributeName("Id").withKeyType(KeyType.HASH));
-        keySchema.add(new KeySchemaElement().withAttributeName("Username").withKeyType(KeyType.HASH));
         CreateTableRequest request = new CreateTableRequest()
                 .withTableName(tableName).withKeySchema(keySchema)
                 .withAttributeDefinitions(attributeDefinitions).withProvisionedThroughput(new ProvisionedThroughput()
