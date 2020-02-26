@@ -44,6 +44,11 @@ public class DynamoManager {
     public Empleado getWorkerById(int id){
         return (Empleado)dao.getPOJOById(id,Empleado.class);
     }
+
+    public void createTableEvento()throws InterruptedException{
+        dao.createTable("Evento");
+    }
+
     public Incidencia getIncidenciaById(int id){
         return (Incidencia)dao.getPOJOById(id, Incidencia.class);
     }
