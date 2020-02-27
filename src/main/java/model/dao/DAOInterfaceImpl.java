@@ -6,7 +6,9 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
+import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
 import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
 import com.amazonaws.services.dynamodbv2.model.*;
 import model.Empleado;
 import model.Evento;
@@ -43,7 +45,10 @@ public class DAOInterfaceImpl implements DAOInterface {
 
     @Override
     public void removeEmpleado(Empleado e) {
-
+        Table table = dynamoDB.getTable("Worker");
+        DeleteItemSpec deleteItemSpec = new DeleteItemSpec()
+                .withPrimaryKey(new PrimaryKey("Id", e.getId()));
+        table.deleteItem(deleteItemSpec);
     }
 
     @Override
@@ -55,6 +60,12 @@ public class DAOInterfaceImpl implements DAOInterface {
     public List<Incidencia> selectAllIncidencias() {
         DynamoDBScanExpression expression = new DynamoDBScanExpression();
         return mapper.scan(Incidencia.class, expression);
+    }
+
+    @Override
+    public List<Empleado> selectAllEmpleados() {
+        DynamoDBScanExpression expression = new DynamoDBScanExpression();
+        return mapper.scan(Empleado.class, expression);
     }
 
     @Override

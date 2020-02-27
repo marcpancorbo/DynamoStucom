@@ -34,6 +34,9 @@ public interface DAOInterface {
     // Obtener una lista de todas las incidencias
     public List<Incidencia> selectAllIncidencias();
 
+    // Obtener una lista de todos los empleados
+    public List<Empleado> selectAllEmpleados();
+
     // Insertar una incidencia a partir de un objeto incidencia
     public void insertIncidencia(Incidencia i);
 

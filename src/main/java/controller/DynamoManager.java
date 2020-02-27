@@ -29,7 +29,6 @@ public class DynamoManager {
     }
 
     public void createTableWorker() throws InterruptedException {
-
         dao.createTable("Worker");
     }
     public Table getTableByName(String name){return dao.getTableByName(name);}
@@ -54,5 +53,12 @@ public class DynamoManager {
     }
     public List<Incidencia> findIncidencia(){
         return dao.getAllPOJOFromTable(Incidencia.class, "Incidencia");
+    }
+    public List<Empleado> findEmpleado(){
+        return dao.getAllPOJOFromTable(Empleado.class, "Worker");
+    }
+
+    public void removeEmpleado(Empleado empleado){
+        dao.removeEmpleado(empleado);
     }
 }
