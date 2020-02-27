@@ -83,7 +83,10 @@ public class DAOInterfaceImpl implements DAOInterface {
 
     @Override
     public List<Incidencia> getIncidenciaByDestino(Empleado e) {
-        return null;
+        Map<String, AttributeValue> eav = new HashMap<>();
+        eav.put(":val1",new AttributeValue().withS(e.getUserName()));
+        DynamoDBScanExpression expression = new DynamoDBScanExpression().withFilterExpression("Destination = :val1").withExpressionAttributeValues(eav);
+        return mapper.scan(Incidencia.class, expression);
     }
 
     @Override

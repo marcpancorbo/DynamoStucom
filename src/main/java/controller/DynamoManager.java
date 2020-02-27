@@ -54,6 +54,7 @@ public class DynamoManager {
         return (Incidencia)dao.getPOJOById(id, Incidencia.class);
     }
     public List<Incidencia> getIncidenciaByOrigen(Empleado empleado){return dao.getIncidenciaByOrigen(empleado);}
+    public List<Incidencia> getIncidenciaByDestino(Empleado empleado){return dao.getIncidenciaByDestino(empleado);}
     public List<Incidencia> findIncidencia(){
         return dao.getAllPOJOFromTable(Incidencia.class, "Incidencia");
     }
