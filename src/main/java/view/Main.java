@@ -22,7 +22,7 @@ public class Main {
 
        Empleado worker = new Empleado();
        worker.setUserName("Paco");
-
+       worker.setPhoneNumber("12345567");
 
        List<Incidencia> incidencias = manager.getIncidenciaByOrigen(worker);
         incidencias.forEach(incidencia -> {

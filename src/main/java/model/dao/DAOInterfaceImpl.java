@@ -8,6 +8,8 @@ import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
+import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
+import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.*;
 import model.Empleado;
 import model.Evento;
@@ -41,6 +43,11 @@ public class DAOInterfaceImpl implements DAOInterface {
 
     @Override
     public void updateEmpleado(Empleado e) {
+        Table table = dynamoDB.getTable("Worker");
+            UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey("Id",e.getId())
+                    .withUpdateExpression("set Username =:u, Password =:p, Name =:n, Phonename =:pn")
+                    .withValueMap(new ValueMap().withString(":u",e.getUserName()).withString(":p",e.getPassword()).withString(":n",e.getName()).withString(":pn",e.getPhoneNumber()))
+                    .withReturnValues(ReturnValue.UPDATED_NEW);
 
     }
 

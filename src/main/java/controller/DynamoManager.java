@@ -64,4 +64,8 @@ public class DynamoManager {
     public void removeEmpleado(Empleado empleado){
         dao.removeEmpleado(empleado);
     }
+
+    public void updateEmpleado(Empleado e){
+        dao.updateEmpleado(e);
+    }
 }
