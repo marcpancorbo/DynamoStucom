@@ -20,9 +20,7 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
        List<Incidencia> incidencias = manager.findIncidencia();
-       incidencias.forEach(incidencia -> {
-           System.out.println(incidencia.getId());
-       });
+       incidencias.forEach(incidencia -> System.out.println(incidencia.getId()));
     }
 
 }
