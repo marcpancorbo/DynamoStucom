@@ -14,7 +14,9 @@ import model.Evento;
 import model.Incidencia;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DAOInterfaceImpl implements DAOInterface {
     private AmazonDynamoDB client;
@@ -79,7 +81,10 @@ public class DAOInterfaceImpl implements DAOInterface {
 
     @Override
     public List<Incidencia> getIncidenciaByOrigen(Empleado e) {
-        return null;
+        Map<String, AttributeValue> eav = new HashMap<>();
+        eav.put(":val1",new AttributeValue().withS(e.getUserName()));
+        DynamoDBScanExpression expression = new DynamoDBScanExpression().withFilterExpression("Origin = :val1").withExpressionAttributeValues(eav);
+        return mapper.scan(Incidencia.class, expression);
     }
 
     @Override

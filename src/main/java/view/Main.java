@@ -19,10 +19,15 @@ public class Main {
     private static DynamoManager manager = DynamoManager.getInstance();
 
     public static void main(String[] args) throws InterruptedException {
-       List<Incidencia> incidencias = manager.findIncidencia();
-       incidencias.forEach(incidencia -> {
-           System.out.println(incidencia.getId());
-       });
+
+       Empleado worker = new Empleado();
+       worker.setUserName("Paco");
+
+
+       List<Incidencia> incidencias = manager.getIncidenciaByOrigen(worker);
+        incidencias.forEach(incidencia -> {
+            System.out.println(incidencia.getOrigin());
+        });
     }
 
 }
