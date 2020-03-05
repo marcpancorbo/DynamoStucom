@@ -21,13 +21,17 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
 
        Empleado worker = new Empleado();
-       worker.setUserName("Paco");
-       worker.setPhoneNumber("12345567");
-
-       List<Incidencia> incidencias = manager.getIncidenciaByOrigen(worker);
-        incidencias.forEach(incidencia -> {
-            System.out.println(incidencia.getOrigin());
+       worker.setUserName("Luis");
+       worker.setPhoneNumber("1234556789");
+       manager.storeWorker(worker);
+       worker=manager.getWorkerByUsername("Luis");
+       worker.setUserName("Marc");
+       manager.updateEmpleado(worker);
+        List<Empleado> empleadoss = manager.findEmpleado();
+        empleadoss.forEach(empleado -> {
+            System.out.println(empleado.getUserName());
         });
+
     }
 
 }

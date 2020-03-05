@@ -68,4 +68,6 @@ public interface DAOInterface {
     public void createTable(String tableName) throws InterruptedException;
     Table getTableByName(String table);
    <T> List<T>  getAllPOJOFromTable(Class<T> clazz, String table);
+
+   public List<Empleado> getEmpleadoByUsername(String username);
 }

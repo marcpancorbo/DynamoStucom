@@ -31,7 +31,7 @@ public class Empleado {
         this.password = password;
     }
 
-    @DynamoDBAttribute(attributeName = "Name")
+    @DynamoDBAttribute(attributeName = "Nombre")
     public String getName() {
         return name;
     }

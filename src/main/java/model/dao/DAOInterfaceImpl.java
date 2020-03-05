@@ -7,6 +7,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
 import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
@@ -45,10 +46,10 @@ public class DAOInterfaceImpl implements DAOInterface {
     public void updateEmpleado(Empleado e) {
         Table table = dynamoDB.getTable("Worker");
             UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey("Id",e.getId())
-                    .withUpdateExpression("set Username =:u, Password =:p, Name =:n, Phonename =:pn")
+                    .withUpdateExpression("set Username =:u, Password =:p, Nombre =:n, Phonename =:pn")
                     .withValueMap(new ValueMap().withString(":u",e.getUserName()).withString(":p",e.getPassword()).withString(":n",e.getName()).withString(":pn",e.getPhoneNumber()))
                     .withReturnValues(ReturnValue.UPDATED_NEW);
-
+        table.updateItem(updateItemSpec);
     }
 
     @Override
@@ -131,6 +132,14 @@ public class DAOInterfaceImpl implements DAOInterface {
     public <T> List<T>  getAllPOJOFromTable(Class<T> clazz, String table) {
         DynamoDBScanExpression expression = new DynamoDBScanExpression();
         return mapper.scan(clazz, expression);
+    }
+
+    @Override
+    public List<Empleado> getEmpleadoByUsername(String username) {
+        Map<String, AttributeValue> eav = new HashMap<>();
+        eav.put(":val1",new AttributeValue().withS(username));
+        DynamoDBScanExpression expression = new DynamoDBScanExpression().withFilterExpression("Username = :val1").withExpressionAttributeValues(eav);
+        return mapper.scan(Empleado.class, expression);
     }
 
     @Override

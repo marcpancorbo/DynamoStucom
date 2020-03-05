@@ -69,4 +69,9 @@ public class DynamoManager {
     public void updateEmpleado(Empleado e){
         dao.updateEmpleado(e);
     }
+
+    public Empleado getWorkerByUsername(String username){
+        List<Empleado> empleados = dao.getEmpleadoByUsername(username);
+        return empleados.isEmpty() ? null : empleados.get(0) ;
+    }
 }
