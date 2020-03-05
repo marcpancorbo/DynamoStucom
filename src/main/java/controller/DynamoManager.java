@@ -1,16 +1,10 @@
 package controller;
 
 import com.amazonaws.services.dynamodbv2.document.Table;
-import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
 import model.Empleado;
 import model.Incidencia;
 import model.dao.DAOInterfaceImpl;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
-import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
-import software.amazon.awssdk.services.dynamodb.model.ListTablesRequest;
-import software.amazon.awssdk.services.dynamodb.model.ListTablesResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DynamoManager {
@@ -73,5 +67,8 @@ public class DynamoManager {
     public Empleado getWorkerByUsername(String username){
         List<Empleado> empleados = dao.getEmpleadoByUsername(username);
         return empleados.isEmpty() ? null : empleados.get(0) ;
+    }
+    public void deleteTable(String tableName){
+        dao.deleteTable(tableName);
     }
 }

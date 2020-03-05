@@ -46,7 +46,7 @@ public class DAOInterfaceImpl implements DAOInterface {
     public void updateEmpleado(Empleado e) {
         Table table = dynamoDB.getTable("Worker");
             UpdateItemSpec updateItemSpec = new UpdateItemSpec().withPrimaryKey("Id",e.getId())
-                    .withUpdateExpression("set Username =:u, Password =:p, Nombre =:n, Phonename =:pn")
+                    .withUpdateExpression("set Username =:u, Password =:p, Nombre =:n, Phonenumber =:pn")
                     .withValueMap(new ValueMap().withString(":u",e.getUserName()).withString(":p",e.getPassword()).withString(":n",e.getName()).withString(":pn",e.getPhoneNumber()))
                     .withReturnValues(ReturnValue.UPDATED_NEW);
         table.updateItem(updateItemSpec);
@@ -140,6 +140,11 @@ public class DAOInterfaceImpl implements DAOInterface {
         eav.put(":val1",new AttributeValue().withS(username));
         DynamoDBScanExpression expression = new DynamoDBScanExpression().withFilterExpression("Username = :val1").withExpressionAttributeValues(eav);
         return mapper.scan(Empleado.class, expression);
+    }
+
+    @Override
+    public void deleteTable(String tableName) {
+        dynamoDB.getTable(tableName).delete();
     }
 
     @Override

@@ -20,18 +20,19 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
-       Empleado worker = new Empleado();
-       worker.setUserName("Luis");
-       worker.setPhoneNumber("1234556789");
-       manager.storeWorker(worker);
-       worker=manager.getWorkerByUsername("Luis");
-       worker.setUserName("Marc");
-       manager.updateEmpleado(worker);
+        List<Empleado> empleados = manager.findEmpleado();
+        empleados.forEach(empleado -> {
+            System.out.println(empleado.getUserName());
+        });
+        Empleado worker=manager.getWorkerByUsername("Marc");
+        worker.setUserName("Venhime");
+        worker.setPhoneNumber("654023488");
+        worker.setName("Marc");
+        manager.updateEmpleado(worker);
         List<Empleado> empleadoss = manager.findEmpleado();
         empleadoss.forEach(empleado -> {
-            System.out.println(empleado.getUserName());
+            System.out.println("Username: "+empleado.getUserName() + "Name : "+empleado.getName() + "PhoneNumber: "+empleado.getPhoneNumber());
         });
 
     }
-
 }

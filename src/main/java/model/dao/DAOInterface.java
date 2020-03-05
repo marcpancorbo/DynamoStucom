@@ -70,4 +70,5 @@ public interface DAOInterface {
    <T> List<T>  getAllPOJOFromTable(Class<T> clazz, String table);
 
    public List<Empleado> getEmpleadoByUsername(String username);
+   void deleteTable (String tableName);
 }

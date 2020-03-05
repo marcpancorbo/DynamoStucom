@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import org.apache.commons.lang3.EnumUtils;
 
 import java.util.Date;
+
 @DynamoDBTable(tableName = "Incidencia")
 public class Incidencia {
     private Date date;
@@ -55,7 +56,7 @@ public class Incidencia {
         return type;
     }
 
-    public void setType( String type) {
+    public void setType(String type) {
         if (EnumUtils.isValidEnum(TipoUrgencia.class, type.toUpperCase()))
             this.type = type.toUpperCase();
     }
