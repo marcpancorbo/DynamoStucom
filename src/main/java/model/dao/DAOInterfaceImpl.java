@@ -7,7 +7,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.PrimaryKey;
 import com.amazonaws.services.dynamodbv2.document.Table;
-import com.amazonaws.services.dynamodbv2.document.UpdateItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
@@ -39,7 +38,14 @@ public class DAOInterfaceImpl implements DAOInterface {
 
     @Override
     public boolean loginEmpleado(String user, String pass) {
-        return false;
+        Map<String, AttributeValue> eav = new HashMap<>();
+        eav.put(":val1",new AttributeValue().withS(user));
+        eav.put(":val2", new AttributeValue().withS(pass));
+        DynamoDBScanExpression expression = new DynamoDBScanExpression().withFilterExpression("Username = :val1 && Password = :val2").withExpressionAttributeValues(eav);
+         List <Empleado> empleados = mapper.scan(Empleado.class, expression);
+         if (empleados.isEmpty())
+             return false;
+         return true;
     }
 
     @Override
