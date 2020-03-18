@@ -57,6 +57,7 @@ public class Main {
             System.out.println("1 - Empleados");
             System.out.println("2 - Incidencias");
             System.out.println("3 - Eventos");
+            System.out.println("0 - Cerrar sesion");
             int option = InputAsker.askInt("¿Que quieres hacer?");
             switch (option) {
                 case 1:
@@ -67,6 +68,7 @@ public class Main {
                 case 3:
                     break;
                 case 0:
+                    System.out.println("Saliendo...");
                     stop = true;
                     break;
                 default:
@@ -110,38 +112,40 @@ public class Main {
     }
 
 
-    public static void createWorker(){
+    public static void createWorker() {
         Empleado empleado = new Empleado();
         empleado.setName(InputAsker.askString("Name: "));
         boolean existe = false;
         String username;
-        do{
-             username = InputAsker.askString("Username: ");
-            if (manager.getWorkerByUsername(username) != null){
+        do {
+            username = InputAsker.askString("Username: ");
+            if (manager.getWorkerByUsername(username) != null) {
                 System.out.println("Ese nombre de usuario ya está registrado");
                 existe = true;
-            }else{
+            } else {
                 existe = false;
             }
-        }while (existe);
+        } while (existe);
         empleado.setUserName(username);
         boolean verif;
         String password;
-        do{
+        do {
             password = InputAsker.askString("Password: ");
             String passwordVerif = InputAsker.askString("Verifica tu password");
-            if (!password.equalsIgnoreCase(passwordVerif)){
-                verif  = false;
+            if (!password.equalsIgnoreCase(passwordVerif)) {
+                verif = false;
                 System.out.println("Tus dos contrasenas no coinciden");
-            }else{
+            } else {
                 verif = true;
             }
-        }while (!verif);
+        } while (!verif);
         empleado.setPassword(password);
         empleado.setPhoneNumber(InputAsker.askString("PhoneNumber: "));
         manager.storeWorker(empleado);
         System.out.println("Usuario registrado");
     }
+
+
     public static void showAllWorkers() {
         List<Empleado> workers = manager.getAllWorkers();
         if (!workers.isEmpty()) {
