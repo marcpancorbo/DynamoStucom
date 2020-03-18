@@ -84,6 +84,7 @@ public class Main {
             System.out.println("1 - Ver todos los empleados");
             System.out.println("2 - Modificar empleado");
             System.out.println("3 - Eliminar empleado");
+            System.out.println("4 - Crear empleado");
             System.out.println("0 - Atras");
             int option = InputAsker.askInt("¿Que quieres hacer?");
             switch (option) {
@@ -94,6 +95,9 @@ public class Main {
                     break;
                 case 3:
                     deleteWorker();
+                    break;
+                case 4:
+                    createWorker();
                     break;
                 case 0:
                     stop = true;
@@ -106,6 +110,38 @@ public class Main {
     }
 
 
+    public static void createWorker(){
+        Empleado empleado = new Empleado();
+        empleado.setName(InputAsker.askString("Name: "));
+        boolean existe = false;
+        String username;
+        do{
+             username = InputAsker.askString("Username: ");
+            if (manager.getWorkerByUsername(username) != null){
+                System.out.println("Ese nombre de usuario ya está registrado");
+                existe = true;
+            }else{
+                existe = false;
+            }
+        }while (existe);
+        empleado.setUserName(username);
+        boolean verif;
+        String password;
+        do{
+            password = InputAsker.askString("Password: ");
+            String passwordVerif = InputAsker.askString("Verifica tu password");
+            if (!password.equalsIgnoreCase(passwordVerif)){
+                verif  = false;
+                System.out.println("Tus dos contrasenas no coinciden");
+            }else{
+                verif = true;
+            }
+        }while (!verif);
+        empleado.setPassword(password);
+        empleado.setPhoneNumber(InputAsker.askString("PhoneNumber: "));
+        manager.storeWorker(empleado);
+        System.out.println("Usuario registrado");
+    }
     public static void showAllWorkers() {
         List<Empleado> workers = manager.getAllWorkers();
         if (!workers.isEmpty()) {
