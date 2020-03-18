@@ -15,10 +15,7 @@ import model.Empleado;
 import model.Evento;
 import model.Incidencia;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DAOInterfaceImpl implements DAOInterface {
     private AmazonDynamoDB client;
@@ -41,7 +38,7 @@ public class DAOInterfaceImpl implements DAOInterface {
         Map<String, AttributeValue> eav = new HashMap<>();
         eav.put(":val1",new AttributeValue().withS(user));
         eav.put(":val2", new AttributeValue().withS(pass));
-        DynamoDBScanExpression expression = new DynamoDBScanExpression().withFilterExpression("Username = :val1 && Password = :val2").withExpressionAttributeValues(eav);
+        DynamoDBScanExpression expression = new DynamoDBScanExpression().withFilterExpression("Username = :val1 and Password = :val2").withExpressionAttributeValues(eav);
          List <Empleado> empleados = mapper.scan(Empleado.class, expression);
          if (empleados.isEmpty())
              return false;
@@ -111,7 +108,11 @@ public class DAOInterfaceImpl implements DAOInterface {
 
     @Override
     public Evento getUltimoInicioSesion(Empleado e) {
-        return null;
+        Map<String, AttributeValue> eav = new HashMap<>();
+        eav.put(":val1",new AttributeValue().withS(e.getUserName()));
+        DynamoDBScanExpression expression = new DynamoDBScanExpression().withFilterExpression("Employee = :val1").withExpressionAttributeValues(eav);
+        List<Evento> eventos = mapper.scan(Evento.class, expression);
+        return eventos.stream().min(Comparator.comparing(Evento::getDate)).get();
     }
 
     @Override
