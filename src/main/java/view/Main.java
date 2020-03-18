@@ -42,7 +42,11 @@ public class Main {
     public static void login() {
         String userName = InputAsker.askString("Username: ");
         String pass = InputAsker.askString("Contrasena: ");
+        if (manager.login(userName, pass)) {
 
+        } else {
+            System.out.println("Error!");
+        }
     }
 
 }

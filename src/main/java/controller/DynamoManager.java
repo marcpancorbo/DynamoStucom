@@ -26,6 +26,7 @@ public class DynamoManager {
         dao.createTable("Worker");
     }
     public Table getTableByName(String name){return dao.getTableByName(name);}
+
     public void createTableIncidencia() throws InterruptedException {
         dao.createTable("Incidencia");
     }
@@ -70,5 +71,9 @@ public class DynamoManager {
     }
     public void deleteTable(String tableName){
         dao.deleteTable(tableName);
+    }
+
+    public boolean login(String username, String pass){
+        return dao.loginEmpleado(username, pass);
     }
 }
