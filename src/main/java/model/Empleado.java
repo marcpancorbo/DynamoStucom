@@ -49,6 +49,7 @@ public class Empleado {
     public void setId(String id) {
         this.id = id;
     }
+
     @DynamoDBAttribute(attributeName = "Phonenumber")
     public String getPhoneNumber() {
         return phoneNumber;
@@ -56,5 +57,16 @@ public class Empleado {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Empleado{" +
+                "id='" + id + '\'' +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
     }
 }

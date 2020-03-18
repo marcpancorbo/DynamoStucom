@@ -49,6 +49,7 @@ public class Main {
         }
     }
 
+
     public static void showUserOptions() {
         boolean stop = false;
         do {
@@ -75,6 +76,7 @@ public class Main {
         } while (!stop);
     }
 
+
     public static void showWorkerOptions() {
         boolean stop = false;
         do {
@@ -91,6 +93,7 @@ public class Main {
                 case 2:
                     break;
                 case 3:
+                    deleteWorker();
                     break;
                 case 0:
                     stop = true;
@@ -102,9 +105,28 @@ public class Main {
         } while (!stop);
     }
 
+
     public static void showAllWorkers() {
-        for (Empleado e : manager.getAllWorkers()) {
-            System.out.println(e.toString());
+        List<Empleado> workers = manager.getAllWorkers();
+        if (!workers.isEmpty()) {
+            for (Empleado e : manager.getAllWorkers()) {
+                System.out.println("- " + e.toString());
+            }
+        } else {
+            System.out.println("NO existen workers que mostrar");
+        }
+    }
+
+    public static void deleteWorker() {
+        List<Empleado> workers = manager.getAllWorkers();
+        if (!workers.isEmpty()) {
+            for (int i = 0; i < workers.size(); i++) {
+                System.out.println(i + 1 + " - " + workers.get(i).toString());
+            }
+            int escogido = InputAsker.askInt("Escoge el trabajador a borrar: ", 1, workers.size());
+
+        } else {
+            System.out.println("NO existen workers que mostrar");
         }
     }
 
