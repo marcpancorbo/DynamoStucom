@@ -14,6 +14,7 @@ import com.amazonaws.services.dynamodbv2.model.*;
 import model.Empleado;
 import model.Evento;
 import model.Incidencia;
+import model.TipoEvento;
 
 import java.util.*;
 
@@ -40,8 +41,15 @@ public class DAOInterfaceImpl implements DAOInterface {
         eav.put(":val2", new AttributeValue().withS(pass));
         DynamoDBScanExpression expression = new DynamoDBScanExpression().withFilterExpression("Username = :val1 and Password = :val2").withExpressionAttributeValues(eav);
          List <Empleado> empleados = mapper.scan(Empleado.class, expression);
-         if (empleados.isEmpty())
+         if (empleados.isEmpty()){
              return false;
+         }else{
+             Evento eventoLogin = new Evento();
+             eventoLogin.setEmployee(user);
+             eventoLogin.setDate(new Date());
+             eventoLogin.setType(String.valueOf(TipoEvento.I));
+             insertarEvento(eventoLogin);
+         }
          return true;
     }
 
