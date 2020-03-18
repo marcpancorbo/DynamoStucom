@@ -10,6 +10,7 @@ import java.util.List;
 public class DynamoManager {
     private static DynamoManager instance = null;
     private static DAOInterfaceImpl dao;
+    private Empleado workerActive;
 
     private DynamoManager() {
         dao = new DAOInterfaceImpl();
@@ -22,58 +23,82 @@ public class DynamoManager {
         return instance;
     }
 
+    public Empleado getWorkerActive() {
+        return workerActive;
+    }
+
+
     public void createTableWorker() throws InterruptedException {
         dao.createTable("Worker");
     }
-    public Table getTableByName(String name){return dao.getTableByName(name);}
+
+    public Table getTableByName(String name) {
+        return dao.getTableByName(name);
+    }
 
     public void createTableIncidencia() throws InterruptedException {
         dao.createTable("Incidencia");
     }
 
-    public void storeIncidencia(Incidencia incidencia){dao.insertIncidencia(incidencia);}
+    public void storeIncidencia(Incidencia incidencia) {
+        dao.insertIncidencia(incidencia);
+    }
 
-    public void storeWorker(Empleado worker){
+    public void storeWorker(Empleado worker) {
         dao.insertEmpleado(worker);
     }
 
-    public Empleado getWorkerById(String id){
-        return (Empleado)dao.getPOJOById(id,Empleado.class);
+    public Empleado getWorkerById(String id) {
+        return (Empleado) dao.getPOJOById(id, Empleado.class);
     }
 
-    public void createTableEvento()throws InterruptedException{
+    public void createTableEvento() throws InterruptedException {
         dao.createTable("Evento");
     }
 
-    public Incidencia getIncidenciaById(String id){
-        return (Incidencia)dao.getPOJOById(id, Incidencia.class);
+    public Incidencia getIncidenciaById(String id) {
+        return (Incidencia) dao.getPOJOById(id, Incidencia.class);
     }
-    public List<Incidencia> getIncidenciaByOrigen(Empleado empleado){return dao.getIncidenciaByOrigen(empleado);}
-    public List<Incidencia> getIncidenciaByDestino(Empleado empleado){return dao.getIncidenciaByDestino(empleado);}
-    public List<Incidencia> findIncidencia(){
+
+    public List<Incidencia> getIncidenciaByOrigen(Empleado empleado) {
+        return dao.getIncidenciaByOrigen(empleado);
+    }
+
+    public List<Incidencia> getIncidenciaByDestino(Empleado empleado) {
+        return dao.getIncidenciaByDestino(empleado);
+    }
+
+    public List<Incidencia> findIncidencia() {
         return dao.getAllPOJOFromTable(Incidencia.class, "Incidencia");
     }
-    public List<Empleado> findEmpleado(){
+
+    public List<Empleado> findEmpleado() {
         return dao.getAllPOJOFromTable(Empleado.class, "Worker");
     }
 
-    public void removeEmpleado(Empleado empleado){
+    public void removeEmpleado(Empleado empleado) {
         dao.removeEmpleado(empleado);
     }
 
-    public void updateEmpleado(Empleado e){
+    public void updateEmpleado(Empleado e) {
         dao.updateEmpleado(e);
     }
 
-    public Empleado getWorkerByUsername(String username){
+    public Empleado getWorkerByUsername(String username) {
         List<Empleado> empleados = dao.getEmpleadoByUsername(username);
-        return empleados.isEmpty() ? null : empleados.get(0) ;
+        return empleados.isEmpty() ? null : empleados.get(0);
     }
-    public void deleteTable(String tableName){
+
+    public void deleteTable(String tableName) {
         dao.deleteTable(tableName);
     }
 
-    public boolean login(String username, String pass){
-        return dao.loginEmpleado(username, pass);
+    public boolean login(String username, String pass) {
+        if (dao.loginEmpleado(username, pass)) {
+            workerActive = dao.getEmpleadoByUsername(username).get(0);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
