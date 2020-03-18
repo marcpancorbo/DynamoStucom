@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
 import model.Empleado;
 import model.Evento;
 import model.Incidencia;
+import model.TipoEvento;
 
 import java.util.List;
 
@@ -71,4 +72,5 @@ public interface DAOInterface {
 
    public List<Empleado> getEmpleadoByUsername(String username);
    void deleteTable (String tableName);
+   void generarEvento(String empleado, TipoEvento tipo);
 }

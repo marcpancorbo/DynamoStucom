@@ -44,11 +44,7 @@ public class DAOInterfaceImpl implements DAOInterface {
          if (empleados.isEmpty()){
              return false;
          }else{
-             Evento eventoLogin = new Evento();
-             eventoLogin.setEmployee(user);
-             eventoLogin.setDate(new Date());
-             eventoLogin.setType(String.valueOf(TipoEvento.I));
-             insertarEvento(eventoLogin);
+            generarEvento(user, TipoEvento.I);
          }
          return true;
     }
@@ -98,6 +94,7 @@ public class DAOInterfaceImpl implements DAOInterface {
         Map<String, AttributeValue> eav = new HashMap<>();
         eav.put(":val1",new AttributeValue().withS(e.getUserName()));
         DynamoDBScanExpression expression = new DynamoDBScanExpression().withFilterExpression("Destination = :val1").withExpressionAttributeValues(eav);
+        generarEvento(e.getUserName(), TipoEvento.C);
         return mapper.scan(Incidencia.class, expression);
     }
 
@@ -160,6 +157,15 @@ public class DAOInterfaceImpl implements DAOInterface {
     @Override
     public void deleteTable(String tableName) {
         dynamoDB.getTable(tableName).delete();
+    }
+
+    @Override
+    public void generarEvento(String empleado, TipoEvento tipo) {
+        Evento eventoLogin = new Evento();
+        eventoLogin.setEmployee(empleado);
+        eventoLogin.setDate(new Date());
+        eventoLogin.setType(String.valueOf(tipo));
+        insertarEvento(eventoLogin);
     }
 
     @Override
