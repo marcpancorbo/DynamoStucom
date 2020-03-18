@@ -1,38 +1,48 @@
 package view;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.amazonaws.services.dynamodbv2.document.Table;
-import com.amazonaws.services.dynamodbv2.model.*;
 import controller.DynamoManager;
 import model.Empleado;
-import model.Incidencia;
-import model.TipoUrgencia;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Main {
 
     private static DynamoManager manager = DynamoManager.getInstance();
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
+        showMenu();
+    }
 
-        List<Empleado> empleados = manager.findEmpleado();
-        empleados.forEach(empleado -> {
-            System.out.println(empleado.getUserName());
-        });
-        Empleado worker=manager.getWorkerByUsername("Marc");
-        worker.setUserName("Venhime");
-        worker.setPhoneNumber("654023488");
-        worker.setName("Marc");
-        manager.updateEmpleado(worker);
-        List<Empleado> empleadoss = manager.findEmpleado();
-        empleadoss.forEach(empleado -> {
-            System.out.println("Username: "+empleado.getUserName() + "Name : "+empleado.getName() + "PhoneNumber: "+empleado.getPhoneNumber());
-        });
+
+    public static void showMenu() {
+        boolean stop = false;
+        do {
+            showFirstOptions();
+            int option = InputAsker.askInt("¿Que quieres hacer?");
+            switch (option) {
+                case 1:
+                    login();
+                    break;
+                case 0:
+                    System.out.println("Cerrando...");
+                    stop = true;
+                    break;
+                default:
+                    break;
+            }
+        } while (!stop);
+    }
+
+    public static void showFirstOptions() {
+        System.out.println("1 - Login");
+        System.out.println("0 - Close");
+    }
+
+
+    public static void login() {
+        String userName = InputAsker.askString("Username: ");
+        String pass = InputAsker.askString("Contrasena: ");
 
     }
+
 }
