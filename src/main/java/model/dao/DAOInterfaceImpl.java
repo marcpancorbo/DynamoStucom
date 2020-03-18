@@ -86,6 +86,8 @@ public class DAOInterfaceImpl implements DAOInterface {
 
     @Override
     public void insertIncidencia(Incidencia i) {
+        if (i.getType().equalsIgnoreCase("URGENTE"))
+            generarEvento(i.getOrigin(), TipoEvento.U);
         mapper.save(i);
     }
 
