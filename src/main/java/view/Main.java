@@ -86,7 +86,7 @@ public class Main {
             int option = InputAsker.askInt("¿Que quieres hacer?");
             switch (option) {
                 case 1:
-
+                    showAllWorkers();
                     break;
                 case 2:
                     break;
@@ -102,9 +102,9 @@ public class Main {
         } while (!stop);
     }
 
-    public static void showAllWorkers(){
-        for(Empleado e: manager.get ){
-
+    public static void showAllWorkers() {
+        for (Empleado e : manager.getAllWorkers()) {
+            System.out.println(e.toString());
         }
     }
 
