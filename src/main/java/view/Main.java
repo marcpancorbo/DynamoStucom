@@ -124,7 +124,8 @@ public class Main {
                 System.out.println(i + 1 + " - " + workers.get(i).toString());
             }
             int escogido = InputAsker.askInt("Escoge el trabajador a borrar: ", 1, workers.size());
-
+            manager.removeEmpleado(workers.get(escogido - 1));
+            System.out.println("Empleado borrado correctamente");
         } else {
             System.out.println("NO existen workers que mostrar");
         }
