@@ -43,22 +43,23 @@ public class Main {
         String userName = InputAsker.askString("Username: ");
         String pass = InputAsker.askString("Contrasena: ");
         if (manager.login(userName, pass)) {
-            showWorkerOptions();
+            showUserOptions();
         } else {
             System.out.println("Error!");
         }
     }
 
-    public static void showWorkerOptions() {
+    public static void showUserOptions() {
         boolean stop = false;
         do {
             System.out.println("--- " + manager.getWorkerActive().getUserName() + " ---");
-            System.out.println("1 - Usuarios");
+            System.out.println("1 - Empleados");
             System.out.println("2 - Incidencias");
             System.out.println("3 - Eventos");
             int option = InputAsker.askInt("¿Que quieres hacer?");
             switch (option) {
                 case 1:
+                    showWorkerOptions();
                     break;
                 case 2:
                     break;
@@ -74,11 +75,37 @@ public class Main {
         } while (!stop);
     }
 
-    public static void showUserOptions() {
+    public static void showWorkerOptions() {
         boolean stop = false;
         do {
-            System.out.println("");
+            System.out.println("--- " + manager.getWorkerActive().getUserName() + " ---");
+            System.out.println("1 - Ver todos los empleados");
+            System.out.println("2 - Modificar empleado");
+            System.out.println("3 - Eliminar empleado");
+            System.out.println("0 - Atras");
+            int option = InputAsker.askInt("¿Que quieres hacer?");
+            switch (option) {
+                case 1:
+
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 0:
+                    stop = true;
+                    break;
+                default:
+                    System.out.println("Ese numero no corresponde a ninguna opcion");
+                    break;
+            }
         } while (!stop);
+    }
+
+    public static void showAllWorkers(){
+        for(Empleado e: manager.get ){
+
+        }
     }
 
 
