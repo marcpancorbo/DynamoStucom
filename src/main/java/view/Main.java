@@ -171,5 +171,32 @@ public class Main {
         }
     }
 
+    public static void showIncidenceOptions() {
+        boolean stop = false;
+        do {
+
+            int option = InputAsker.askInt("¿Que quieres hacer?");
+            switch (option) {
+                case 1:
+
+                    break;
+                case 2:
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+                case 0:
+                    stop = true;
+                    break;
+                default:
+                    System.out.println("Ese numero no corresponde a ninguna opcion");
+                    break;
+            }
+        } while (!stop);
+    }
+
 
 }
