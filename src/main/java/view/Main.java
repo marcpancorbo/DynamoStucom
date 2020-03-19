@@ -15,7 +15,7 @@ public class Main {
 
     private static DynamoManager manager = DynamoManager.getInstance();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         showMenu();
     }
 
@@ -127,9 +127,7 @@ public class Main {
             int option = InputAsker.askInt("¿Que quieres hacer?");
             switch (option) {
                 case 1:
-                    manager.getAllEventos().stream().sorted(Comparator.comparing(Evento::getDate).reversed()).forEach(
-                            evento -> System.out.println(evento.toString())
-                    );
+                    showAllEvents();
                     break;
                 case 0:
                     stop = true;
@@ -260,11 +258,20 @@ public class Main {
     public static void showAllIncidence() {
         List<Incidencia> incidencias = manager.getAllIncidencia();
         if (!incidencias.isEmpty()) {
-            for (Incidencia i : incidencias) {
-                System.out.println("- " + i.toString());
-            }
+            incidencias.stream().sorted(Comparator.comparing(Incidencia::getDate).reversed()).forEach(
+                    incidencia -> System.out.println(incidencia.toString()));
         } else {
             System.out.println("NO existen incidencias que mostrar");
+        }
+    }
+    public static void showAllEvents(){
+        List<Evento> eventos = manager.getAllEventos();
+        if (!eventos.isEmpty()){
+            eventos.stream().sorted(Comparator.comparing(Evento::getDate).reversed()).forEach(
+                    evento -> System.out.println(evento.toString())
+            );
+        }else {
+            System.out.println("NO existen eventos que mostrar");
         }
     }
 
