@@ -117,6 +117,7 @@ public class Main {
             }
         } while (!stop);
     }
+
     public static void showEventsOptions() {
         boolean stop = false;
         do {
@@ -146,28 +147,28 @@ public class Main {
         empleado.setName(InputAsker.askString("Name: "));
         boolean existe = false;
         String username;
-        do{
-             username = InputAsker.askString("Username: ");
-            if (manager.getWorkerByUsername(username) != null){
+        do {
+            username = InputAsker.askString("Username: ");
+            if (manager.getWorkerByUsername(username) != null) {
                 System.out.println("Ese nombre de usuario ya está registrado");
                 existe = true;
-            }else{
+            } else {
                 existe = false;
             }
-        }while (existe);
+        } while (existe);
         empleado.setUserName(username);
         boolean verif;
         String password;
-        do{
+        do {
             password = InputAsker.askString("Password: ");
             String passwordVerif = InputAsker.askString("Verifica tu password");
-            if (!password.equalsIgnoreCase(passwordVerif)){
-                verif  = false;
+            if (!password.equalsIgnoreCase(passwordVerif)) {
+                verif = false;
                 System.out.println("Tus dos contrasenas no coinciden");
-            }else{
+            } else {
                 verif = true;
             }
-        }while (!verif);
+        } while (!verif);
         empleado.setPassword(password);
         empleado.setPhoneNumber(InputAsker.askString("PhoneNumber: "));
         manager.storeWorker(empleado);
@@ -218,10 +219,10 @@ public class Main {
                     createIncidence();
                     break;
                 case 3:
-
+                    findIncidenceByOrigin();
                     break;
                 case 4:
-
+                    findIncidenceByDestination();
                     break;
                 case 0:
                     stop = true;
@@ -267,5 +268,48 @@ public class Main {
         }
     }
 
+    public static void findIncidenceByOrigin() {
+        List<Empleado> workers = manager.getAllWorkers();
+        if (!workers.isEmpty()) {
+            for (int i = 0; i < workers.size(); i++) {
+                System.out.println(i + 1 + " - " + workers.get(i).toString());
+            }
+            int escogido = InputAsker.askInt("Escoge el trabajador del que buscar sus incidencias: ", 1, workers.size());
+            Empleado worker = workers.get(escogido - 1);
+            List<Incidencia> incidencie = manager.getIncidenciaByOrigen(worker);
+            if (!incidencie.isEmpty()) {
+                System.out.println("--- INCIDENCIAS ---");
+                for (Incidencia i : incidencie) {
+                    System.out.println("- " + i.toString());
+                }
+            } else {
+                System.out.println("NO existen incidencias creadas por este trabajador");
+            }
+        } else {
+            System.out.println("NO existen workers de los que ver sus incidencias");
+        }
+    }
+
+    public static void findIncidenceByDestination() {
+        List<Empleado> workers = manager.getAllWorkers();
+        if (!workers.isEmpty()) {
+            for (int i = 0; i < workers.size(); i++) {
+                System.out.println(i + 1 + " - " + workers.get(i).toString());
+            }
+            int escogido = InputAsker.askInt("Escoge el trabajador del que buscar las incidencias recibidas: ", 1, workers.size());
+            Empleado worker = workers.get(escogido - 1);
+            List<Incidencia> incidencie = manager.getIncidenciaByDestino(worker);
+            if (!incidencie.isEmpty()) {
+                System.out.println("--- INCIDENCIAS ---");
+                for (Incidencia i : incidencie) {
+                    System.out.println("- " + i.toString());
+                }
+            } else {
+                System.out.println("NO existen incidencias enviadas a este trabajador");
+            }
+        } else {
+            System.out.println("NO existen workers de los que ver sus incidencias");
+        }
+    }
 
 }
