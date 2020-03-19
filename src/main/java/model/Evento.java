@@ -49,4 +49,14 @@ public class Evento {
     public void setId(String id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Evento{" +
+                "id='" + id + '\'' +
+                ", type='" + type + '\'' +
+                ", date=" + date +
+                ", employee='" + employee + '\'' +
+                '}';
+    }
 }

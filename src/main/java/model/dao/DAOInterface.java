@@ -73,4 +73,5 @@ public interface DAOInterface {
    public List<Empleado> getEmpleadoByUsername(String username);
    void deleteTable (String tableName);
    void generarEvento(String empleado, TipoEvento tipo);
+   List<Evento> getAllEventos();
 }

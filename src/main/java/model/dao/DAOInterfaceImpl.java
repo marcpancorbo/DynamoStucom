@@ -171,6 +171,12 @@ public class DAOInterfaceImpl implements DAOInterface {
     }
 
     @Override
+    public List<Evento> getAllEventos() {
+        DynamoDBScanExpression expression = new DynamoDBScanExpression();
+        return mapper.scan(Evento.class, expression);
+    }
+
+    @Override
     public <T> Object getPOJOById(String id, Class<T> clazz){
         return mapper.load(clazz,id);
     }

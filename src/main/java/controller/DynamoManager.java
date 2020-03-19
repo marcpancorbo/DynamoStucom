@@ -2,6 +2,7 @@ package controller;
 
 import com.amazonaws.services.dynamodbv2.document.Table;
 import model.Empleado;
+import model.Evento;
 import model.Incidencia;
 import model.dao.DAOInterfaceImpl;
 
@@ -103,5 +104,8 @@ public class DynamoManager {
         } else {
             return false;
         }
+    }
+    public List<Evento> getAllEventos(){
+        return dao.getAllEventos();
     }
 }

@@ -2,7 +2,9 @@ package view;
 
 import controller.DynamoManager;
 import model.Empleado;
+import model.Evento;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class Main {
@@ -57,6 +59,7 @@ public class Main {
             System.out.println("1 - Empleados");
             System.out.println("2 - Incidencias");
             System.out.println("3 - Eventos");
+            System.out.println("0 - Logout");
             int option = InputAsker.askInt("¿Que quieres hacer?");
             switch (option) {
                 case 1:
@@ -65,6 +68,7 @@ public class Main {
                 case 2:
                     break;
                 case 3:
+                    showEventsOptions();
                     break;
                 case 0:
                     stop = true;
@@ -98,6 +102,28 @@ public class Main {
                     break;
                 case 4:
                     createWorker();
+                    break;
+                case 0:
+                    stop = true;
+                    break;
+                default:
+                    System.out.println("Ese numero no corresponde a ninguna opcion");
+                    break;
+            }
+        } while (!stop);
+    }
+    public static void showEventsOptions() {
+        boolean stop = false;
+        do {
+            System.out.println("--- " + manager.getWorkerActive().getUserName() + " ---");
+            System.out.println("1 - Ver todos los eventos");
+            System.out.println("0 - Atras");
+            int option = InputAsker.askInt("¿Que quieres hacer?");
+            switch (option) {
+                case 1:
+                    manager.getAllEventos().stream().sorted(Comparator.comparing(Evento::getDate).reversed()).forEach(
+                            evento -> System.out.println(evento.toString())
+                    );
                     break;
                 case 0:
                     stop = true;
