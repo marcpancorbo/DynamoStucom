@@ -112,4 +112,7 @@ public class DynamoManager {
     public List<Evento> getAllEventos(){
         return dao.getAllEventos();
     }
+    public Evento getUltimoInicioSesion(Empleado worker){
+        return dao.getUltimoInicioSesion(worker);
+    }
 }

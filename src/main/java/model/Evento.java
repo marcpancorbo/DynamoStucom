@@ -15,7 +15,7 @@ public class Evento {
     private Date date;
     private String employee;
 
-    @DynamoDBAttribute(attributeName = "Type")
+    @DynamoDBAttribute(attributeName = "EventType")
     public String getType() {
         return type;
     }

@@ -63,6 +63,7 @@ public class Main {
             System.out.println("1 - Empleados");
             System.out.println("2 - Incidencias");
             System.out.println("3 - Eventos");
+            System.out.println("4 - Ver Ultimo Inicio de Sesion");
             System.out.println("0 - Logout");
             int option = InputAsker.askInt("¿Que quieres hacer?");
             switch (option) {
@@ -74,6 +75,9 @@ public class Main {
                     break;
                 case 3:
                     showEventsOptions();
+                    break;
+                case 4:
+                    getUltimoInicioSesion();
                     break;
                 case 0:
                     stop = true;
@@ -186,17 +190,9 @@ public class Main {
     }
 
     public static void deleteWorker() {
-        List<Empleado> workers = manager.getAllWorkers();
-        if (!workers.isEmpty()) {
-            for (int i = 0; i < workers.size(); i++) {
-                System.out.println(i + 1 + " - " + workers.get(i).toString());
-            }
-            int escogido = InputAsker.askInt("Escoge el trabajador a borrar: ", 1, workers.size());
-            manager.removeEmpleado(workers.get(escogido - 1));
-            System.out.println("Empleado borrado correctamente");
-        } else {
-            System.out.println("NO existen workers que mostrar");
-        }
+        Empleado worker = selectEmpleado();
+        manager.removeEmpleado(worker);
+        System.out.println("Empleado borrado correctamente");
     }
 
     public static void showIncidenceOptions() {
@@ -233,26 +229,18 @@ public class Main {
     }
 
     public static void createIncidence() {
-        List<Empleado> workers = manager.getAllWorkers();
-        if (!workers.isEmpty()) {
-            for (int i = 0; i < workers.size(); i++) {
-                System.out.println(i + 1 + " - " + workers.get(i).toString());
-            }
-            int escogido = InputAsker.askInt("Escoge el trabajador al que enviarle la incidencia: ", 1, workers.size());
-            Incidencia incidence = new Incidencia();
-            incidence.setDestination(workers.get(escogido - 1).getUserName());
-            incidence.setDetail(InputAsker.askString("Detalle de la incidencia: "));
-            ArrayList<String> options = new ArrayList<>();
-            options.add(TipoUrgencia.NORMAL.name());
-            options.add(TipoUrgencia.URGENTE.name());
-            incidence.setType(InputAsker.askString("Tipo de la incidencia: ", options));
-            incidence.setDate(new Date());
-            incidence.setOrigin(manager.getWorkerActive().getUserName());
-            manager.storeIncidencia(incidence);
-            System.out.println("Incidencia creada correctamente");
-        } else {
-            System.out.println("NO existen workers al que enviarle una incidencia");
-        }
+        Empleado worker = selectEmpleado();
+        Incidencia incidence = new Incidencia();
+        incidence.setDestination(worker.getUserName());
+        incidence.setDetail(InputAsker.askString("Detalle de la incidencia: "));
+        ArrayList<String> options = new ArrayList<>();
+        options.add(TipoUrgencia.NORMAL.name());
+        options.add(TipoUrgencia.URGENTE.name());
+        incidence.setType(InputAsker.askString("Tipo de la incidencia: ", options));
+        incidence.setDate(new Date());
+        incidence.setOrigin(manager.getWorkerActive().getUserName());
+        manager.storeIncidencia(incidence);
+        System.out.println("Incidencia creada correctamente");
     }
 
     public static void showAllIncidence() {
@@ -264,59 +252,65 @@ public class Main {
             System.out.println("NO existen incidencias que mostrar");
         }
     }
-    public static void showAllEvents(){
+
+    public static void showAllEvents() {
         List<Evento> eventos = manager.getAllEventos();
-        if (!eventos.isEmpty()){
+        if (!eventos.isEmpty()) {
             eventos.stream().sorted(Comparator.comparing(Evento::getDate).reversed()).forEach(
                     evento -> System.out.println(evento.toString())
             );
-        }else {
+        } else {
             System.out.println("NO existen eventos que mostrar");
         }
     }
 
     public static void findIncidenceByOrigin() {
-        List<Empleado> workers = manager.getAllWorkers();
-        if (!workers.isEmpty()) {
-            for (int i = 0; i < workers.size(); i++) {
-                System.out.println(i + 1 + " - " + workers.get(i).toString());
-            }
-            int escogido = InputAsker.askInt("Escoge el trabajador del que buscar sus incidencias: ", 1, workers.size());
-            Empleado worker = workers.get(escogido - 1);
-            List<Incidencia> incidencie = manager.getIncidenciaByOrigen(worker);
-            if (!incidencie.isEmpty()) {
-                System.out.println("--- INCIDENCIAS ---");
-                for (Incidencia i : incidencie) {
-                    System.out.println("- " + i.toString());
-                }
-            } else {
-                System.out.println("NO existen incidencias creadas por este trabajador");
+        Empleado worker = selectEmpleado();
+        List<Incidencia> incidencie = manager.getIncidenciaByOrigen(worker);
+        if (!incidencie.isEmpty()) {
+            System.out.println("--- INCIDENCIAS ---");
+            for (Incidencia i : incidencie) {
+                System.out.println("- " + i.toString());
             }
         } else {
-            System.out.println("NO existen workers de los que ver sus incidencias");
+            System.out.println("NO existen incidencias creadas por este trabajador");
         }
     }
 
     public static void findIncidenceByDestination() {
+        Empleado worker = selectEmpleado();
+        List<Incidencia> incidencie = manager.getIncidenciaByDestino(worker);
+        if (!incidencie.isEmpty()) {
+            System.out.println("--- INCIDENCIAS ---");
+            for (Incidencia i : incidencie) {
+                System.out.println("- " + i.toString());
+            }
+        } else {
+            System.out.println("NO existen incidencias enviadas a este trabajador");
+        }
+    }
+
+    public static void getUltimoInicioSesion() {
+        Empleado worker = selectEmpleado();
+        Evento evento = manager.getUltimoInicioSesion(worker);
+        if (evento == null){
+            System.out.println("Este empleado aún no ha iniciado sesión");
+        }else{
+            System.out.println(evento.toString());
+        }
+    }
+
+    public static Empleado selectEmpleado() {
         List<Empleado> workers = manager.getAllWorkers();
         if (!workers.isEmpty()) {
             for (int i = 0; i < workers.size(); i++) {
                 System.out.println(i + 1 + " - " + workers.get(i).toString());
             }
-            int escogido = InputAsker.askInt("Escoge el trabajador del que buscar las incidencias recibidas: ", 1, workers.size());
-            Empleado worker = workers.get(escogido - 1);
-            List<Incidencia> incidencie = manager.getIncidenciaByDestino(worker);
-            if (!incidencie.isEmpty()) {
-                System.out.println("--- INCIDENCIAS ---");
-                for (Incidencia i : incidencie) {
-                    System.out.println("- " + i.toString());
-                }
-            } else {
-                System.out.println("NO existen incidencias enviadas a este trabajador");
-            }
+            int escogido = InputAsker.askInt("Escoge el trabajador: ", 1, workers.size());
+            return workers.get(escogido - 1);
         } else {
-            System.out.println("NO existen workers de los que ver sus incidencias");
+            System.out.println("NO existen workers registrados");
         }
+        return null;
     }
-
 }

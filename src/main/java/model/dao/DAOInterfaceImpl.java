@@ -17,6 +17,7 @@ import model.Incidencia;
 import model.TipoEvento;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DAOInterfaceImpl implements DAOInterface {
     private AmazonDynamoDB client;
@@ -117,9 +118,12 @@ public class DAOInterfaceImpl implements DAOInterface {
     public Evento getUltimoInicioSesion(Empleado e) {
         Map<String, AttributeValue> eav = new HashMap<>();
         eav.put(":val1",new AttributeValue().withS(e.getUserName()));
-        DynamoDBScanExpression expression = new DynamoDBScanExpression().withFilterExpression("Employee = :val1").withExpressionAttributeValues(eav);
+        eav.put(":val2",new AttributeValue().withS("I"));
+        DynamoDBScanExpression expression = new DynamoDBScanExpression().withFilterExpression("Employee = :val1 and EventType = :val2").withExpressionAttributeValues(eav);
         List<Evento> eventos = mapper.scan(Evento.class, expression);
-        return eventos.stream().min(Comparator.comparing(Evento::getDate)).get();
+        if (!eventos.isEmpty())
+            return eventos.stream().sorted(Comparator.comparing(Evento::getDate).reversed()).collect(Collectors.toList()).get(0);
+        return null;
     }
 
     @Override
