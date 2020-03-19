@@ -32,6 +32,10 @@ public class DynamoManager {
         return dao.selectAllEmpleados();
     }
 
+    public List<Incidencia> getAllIncidencia(){
+        return dao.selectAllIncidencias();
+    }
+
     public void createTableWorker() throws InterruptedException {
         dao.createTable("Worker");
     }

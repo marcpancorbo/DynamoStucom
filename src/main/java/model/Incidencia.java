@@ -70,4 +70,16 @@ public class Incidencia {
     public void setId(String id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Incidencia{" +
+                "date=" + date +
+                ", origin='" + origin + '\'' +
+                ", destination='" + destination + '\'' +
+                ", detail='" + detail + '\'' +
+                ", type='" + type + '\'' +
+                ", id='" + id + '\'' +
+                '}';
+    }
 }

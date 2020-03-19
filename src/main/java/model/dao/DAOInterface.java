@@ -67,11 +67,15 @@ public interface DAOInterface {
 
     //public List<RankingTO> getRankingEmpleados();
     public void createTable(String tableName) throws InterruptedException;
+
     Table getTableByName(String table);
+
    <T> List<T>  getAllPOJOFromTable(Class<T> clazz, String table);
 
    public List<Empleado> getEmpleadoByUsername(String username);
+
    void deleteTable (String tableName);
+
    void generarEvento(String empleado, TipoEvento tipo);
    List<Evento> getAllEventos();
 }
