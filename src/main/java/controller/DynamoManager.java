@@ -115,4 +115,20 @@ public class DynamoManager {
     public Evento getUltimoInicioSesion(Empleado worker){
         return dao.getUltimoInicioSesion(worker);
     }
+
+    public boolean checkPasswordWorker(String pass, Empleado empleado){
+        boolean correct=false;
+            if(pass.equals(empleado.getPassword())){
+                correct=true;
+            }
+        return correct;
+    }
+
+    public boolean checkNewPassword(String newPass, String newPass2){
+        boolean correct=false;
+        if(newPass.equals(newPass2)){
+            correct=true;
+        }
+        return correct;
+    }
 }

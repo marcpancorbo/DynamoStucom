@@ -19,6 +19,9 @@ public class Main {
         showMenu();
     }
 
+    /**
+     * Metodo que sirve para seleccionar la opcion del menu de login
+     */
     public static void showMenu() {
         boolean stop = false;
         do {
@@ -39,12 +42,17 @@ public class Main {
         } while (!stop);
     }
 
+    /**
+     * Opciones del menu de login
+     */
     public static void showFirstOptions() {
         System.out.println("1 - Login");
         System.out.println("0 - Close");
     }
 
-
+    /**
+     * Metodo que sirve para pedir los datos necesarios para hacer login
+     */
     public static void login() {
         String userName = InputAsker.askString("Username: ");
         String pass = InputAsker.askString("Contrasena: ");
@@ -55,7 +63,9 @@ public class Main {
         }
     }
 
-
+    /**
+     * Metodo que sirve para mostrar un menu con las opciones que tiene el usuario
+     */
     public static void showUserOptions() {
         boolean stop = false;
         do {
@@ -89,7 +99,9 @@ public class Main {
         } while (!stop);
     }
 
-
+    /**
+     * Metodo que muestra el menu del empleado
+     */
     public static void showWorkerOptions() {
         boolean stop = false;
         do {
@@ -105,6 +117,7 @@ public class Main {
                     showAllWorkers();
                     break;
                 case 2:
+                    updateEmpleado();
                     break;
                 case 3:
                     deleteWorker();
@@ -122,6 +135,9 @@ public class Main {
         } while (!stop);
     }
 
+    /**
+     * metodo que sirve para mostrar el menu de los eventos
+     */
     public static void showEventsOptions() {
         boolean stop = false;
         do {
@@ -143,7 +159,9 @@ public class Main {
         } while (!stop);
     }
 
-
+    /**
+     * Metodo que sirve para pedir los datos necesarios para crear un empleado
+     */
     public static void createWorker() {
         Empleado empleado = new Empleado();
         empleado.setName(InputAsker.askString("Name: "));
@@ -177,7 +195,9 @@ public class Main {
         System.out.println("Usuario registrado");
     }
 
-
+    /**
+     * Metodo que muestra todos los empleados
+     */
     public static void showAllWorkers() {
         List<Empleado> workers = manager.getAllWorkers();
         if (!workers.isEmpty()) {
@@ -189,12 +209,18 @@ public class Main {
         }
     }
 
+    /**
+     * Metodo que borra un empleado
+     */
     public static void deleteWorker() {
         Empleado worker = selectEmpleado();
         manager.removeEmpleado(worker);
         System.out.println("Empleado borrado correctamente");
     }
 
+    /**
+     * Metodo que muestra el menu de las incidencias
+     */
     public static void showIncidenceOptions() {
         boolean stop = false;
         do {
@@ -228,6 +254,9 @@ public class Main {
         } while (!stop);
     }
 
+    /**
+     * Metodo que sirve para pedir los datos necesarios para crear una incidencia
+     */
     public static void createIncidence() {
         Empleado worker = selectEmpleado();
         Incidencia incidence = new Incidencia();
@@ -243,6 +272,9 @@ public class Main {
         System.out.println("Incidencia creada correctamente");
     }
 
+    /**
+     * Metodo que muestra todas las incidencias
+     */
     public static void showAllIncidence() {
         List<Incidencia> incidencias = manager.getAllIncidencia();
         if (!incidencias.isEmpty()) {
@@ -253,6 +285,9 @@ public class Main {
         }
     }
 
+    /**
+     * Metodo que muestra todos los eventos
+     */
     public static void showAllEvents() {
         List<Evento> eventos = manager.getAllEventos();
         if (!eventos.isEmpty()) {
@@ -264,6 +299,9 @@ public class Main {
         }
     }
 
+    /**
+     * Metodo que busca una incidencia por su origen
+     */
     public static void findIncidenceByOrigin() {
         Empleado worker = selectEmpleado();
         List<Incidencia> incidencie = manager.getIncidenciaByOrigen(worker);
@@ -277,6 +315,9 @@ public class Main {
         }
     }
 
+    /**
+     * Metodo que busca una incidencia por su destino
+     */
     public static void findIncidenceByDestination() {
         Empleado worker = selectEmpleado();
         List<Incidencia> incidencie = manager.getIncidenciaByDestino(worker);
@@ -290,16 +331,23 @@ public class Main {
         }
     }
 
+    /**
+     * Metodo que muestra el ultimo login
+     */
     public static void getUltimoInicioSesion() {
         Empleado worker = selectEmpleado();
         Evento evento = manager.getUltimoInicioSesion(worker);
-        if (evento == null){
+        if (evento == null) {
             System.out.println("Este empleado aún no ha iniciado sesión");
-        }else{
+        } else {
             System.out.println(evento.toString());
         }
     }
 
+    /**
+     * Metodo para seleccionar un empleado
+     * @return
+     */
     public static Empleado selectEmpleado() {
         List<Empleado> workers = manager.getAllWorkers();
         if (!workers.isEmpty()) {
@@ -312,5 +360,97 @@ public class Main {
             System.out.println("NO existen workers registrados");
         }
         return null;
+    }
+
+    /**
+     * Metodo que da las opciones del menu para editar un empleado
+     */
+    public static void updateEmpleado() {
+        Empleado empleado = manager.getWorkerActive();
+        boolean salir = false;
+        do {
+            menuUpdate();
+            int option = InputAsker.askInt("Introduce la opción para modificar el usuario");
+            switch (option) {
+                case 1:
+                    updateNameWorker(empleado);
+                    break;
+                case 2:
+                    updatePasswordWorker(empleado);
+                    break;
+                case 3:
+                    updatePhoneNumberWorker(empleado);
+                    break;
+                case 0:
+                    salir=true;
+                    break;
+                default:
+                    System.out.println("El numero no corresponde a ninguna opción.");
+            }
+        }while (!salir);
+    }
+
+    /**
+     * Menu de modificar un empleado
+     */
+    public static void menuUpdate() {
+        System.out.println("Modificar Empleado");
+        System.out.println("1.Name");
+        System.out.println("2.Password");
+        System.out.println("3.PhoneNumber");
+        System.out.println("0.Salir");
+    }
+
+    /**
+     * Metodo que sirve para pedir los datos necesarios para modificar el nombre del empleado
+     * @param empleado
+     */
+    public static void updateNameWorker(Empleado empleado) {
+        String name = InputAsker.askString("Introduce tu nuevo nombre");
+        String pass = InputAsker.askString("Introduce tu password");
+        if(manager.checkPasswordWorker(pass,empleado)){
+            empleado.setName(name);
+            manager.updateEmpleado(empleado);
+            System.out.println("Nombre del empleado actualizado.");
+        }else{
+            System.out.println("El password introducido no coincide con la que tiene el empleado");
+        }
+    }
+
+    /**
+     * Metodo que sirve para pedir los datos necesarios para modificar la password del empleado
+     * @param empleado
+     */
+    public static void updatePasswordWorker(Empleado empleado){
+        String currentPass = InputAsker.askString("Introduce tu password actual");
+        String newPass = InputAsker.askString("Introduce tu nueva password");
+        String newPass2 = InputAsker.askString("Vuelve a introducir la nueva password");
+        if(manager.checkPasswordWorker(currentPass,empleado)){
+            if(manager.checkNewPassword(newPass,newPass2)){
+                empleado.setPassword(newPass);
+                manager.updateEmpleado(empleado);
+                System.out.println("Password del empleado actualizada.");
+            }else{
+                System.out.println("La nueva password no ha sido escrita de forma incorrecta");
+            }
+        }else {
+            System.out.println("El password introducido no coincide con la que tiene el empleado");
+        }
+    }
+
+    /**
+     * Metodo que sirve para pedir los datos necesarios para modificar el numero de telefono de un empleado
+     * @param empleado
+     */
+    public static void updatePhoneNumberWorker(Empleado empleado){
+        String phoneNumber=InputAsker.askString("Introduce tu número de teléfono");
+        String pass=InputAsker.askString("Introduce tu password");
+        if(manager.checkPasswordWorker(pass,empleado)){
+            empleado.setPhoneNumber(phoneNumber);
+            manager.updateEmpleado(empleado);
+            System.out.println("PhoneNumber del empleado actualizado");
+        }else{
+            System.out.println("La password escrita no coincide con la del empleado");
+        }
     }
 }
