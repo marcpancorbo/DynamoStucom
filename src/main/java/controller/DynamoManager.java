@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.document.Table;
 import model.Empleado;
 import model.Evento;
 import model.Incidencia;
+import model.RankingTO;
 import model.dao.DAOInterfaceImpl;
 
 import java.util.List;
@@ -130,5 +131,8 @@ public class DynamoManager {
             correct=true;
         }
         return correct;
+    }
+    public List<RankingTO> getRanking(){
+        return dao.getRankingEmpleados();
     }
 }

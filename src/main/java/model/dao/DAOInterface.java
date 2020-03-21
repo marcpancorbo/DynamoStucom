@@ -2,10 +2,7 @@ package model.dao;
 
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
-import model.Empleado;
-import model.Evento;
-import model.Incidencia;
-import model.TipoEvento;
+import model.*;
 
 import java.util.List;
 
@@ -65,7 +62,7 @@ public interface DAOInterface {
     // Obtener el ranking de los empleados por cantidad de incidencias
     // urgentes creadas (más incidencias urgentes primero).
 
-    //public List<RankingTO> getRankingEmpleados();
+    public List<RankingTO> getRankingEmpleados();
     public void createTable(String tableName) throws InterruptedException;
 
     Table getTableByName(String table);

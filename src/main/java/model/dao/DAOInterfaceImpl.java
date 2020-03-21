@@ -11,10 +11,7 @@ import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
 import com.amazonaws.services.dynamodbv2.document.spec.UpdateItemSpec;
 import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 import com.amazonaws.services.dynamodbv2.model.*;
-import model.Empleado;
-import model.Evento;
-import model.Incidencia;
-import model.TipoEvento;
+import model.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -185,10 +182,19 @@ public class DAOInterfaceImpl implements DAOInterface {
         return mapper.load(clazz,id);
     }
 
-    /*
     @Override
     public List<RankingTO> getRankingEmpleados() {
-        return null;
+        DynamoDBScanExpression expression = new DynamoDBScanExpression();
+        List <Empleado> empleados =  mapper.scan(Empleado.class, expression);
+        List <RankingTO> ranking = new ArrayList<>();
+        empleados.forEach(empleado -> {
+            Map<String, AttributeValue> eav = new HashMap<>();
+            eav.put(":val1",new AttributeValue().withS(empleado.getUserName()));
+            eav.put(":val2",new AttributeValue().withS("URGENTE"));
+            DynamoDBScanExpression express = new DynamoDBScanExpression().withFilterExpression("Origin = :val1 and Type = :val2").withExpressionAttributeValues(eav);
+            List<Incidencia> incidencias =  mapper.scan(Incidencia.class, express);
+            RankingTO ficha = new RankingTO(empleado.getUserName(), incidencias.size());
+        });
+        return ranking;
     }
-     */
 }

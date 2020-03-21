@@ -1,10 +1,7 @@
 package view;
 
 import controller.DynamoManager;
-import model.Empleado;
-import model.Evento;
-import model.Incidencia;
-import model.TipoUrgencia;
+import model.*;
 
 import java.util.Comparator;
 import java.util.ArrayList;
@@ -74,6 +71,7 @@ public class Main {
             System.out.println("2 - Incidencias");
             System.out.println("3 - Eventos");
             System.out.println("4 - Ver Ultimo Inicio de Sesion");
+            System.out.println("5 - Ver Ranking");
             System.out.println("0 - Logout");
             int option = InputAsker.askInt("¿Que quieres hacer?");
             switch (option) {
@@ -88,6 +86,9 @@ public class Main {
                     break;
                 case 4:
                     getUltimoInicioSesion();
+                    break;
+                case 5:
+                    showRanking();
                     break;
                 case 0:
                     stop = true;
@@ -452,5 +453,11 @@ public class Main {
         }else{
             System.out.println("La password escrita no coincide con la del empleado");
         }
+    }
+    public static void showRanking(){
+        List<RankingTO> ranking = manager.getRanking();
+        ranking.stream().sorted(Comparator.comparing(RankingTO::getIncidencias)).forEach(rankingTO -> {
+            System.out.println("Username: "+rankingTO.getUsername()+" Indicendias: "+rankingTO.getIncidencias());
+        });
     }
 }
