@@ -191,9 +191,10 @@ public class DAOInterfaceImpl implements DAOInterface {
             Map<String, AttributeValue> eav = new HashMap<>();
             eav.put(":val1",new AttributeValue().withS(empleado.getUserName()));
             eav.put(":val2",new AttributeValue().withS("URGENTE"));
-            DynamoDBScanExpression express = new DynamoDBScanExpression().withFilterExpression("Origin = :val1 and Type = :val2").withExpressionAttributeValues(eav);
+            DynamoDBScanExpression express = new DynamoDBScanExpression().withFilterExpression("Origin = :val1 and IncidenciaType = :val2").withExpressionAttributeValues(eav);
             List<Incidencia> incidencias =  mapper.scan(Incidencia.class, express);
             RankingTO ficha = new RankingTO(empleado.getUserName(), incidencias.size());
+            ranking.add(ficha);
         });
         return ranking;
     }

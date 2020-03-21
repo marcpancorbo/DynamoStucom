@@ -51,7 +51,7 @@ public class Incidencia {
         this.detail = detail;
     }
 
-    @DynamoDBAttribute(attributeName = "Type")
+    @DynamoDBAttribute(attributeName = "IncidenciaType")
     public String getType() {
         return type;
     }

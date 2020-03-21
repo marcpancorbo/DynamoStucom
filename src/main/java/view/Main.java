@@ -12,7 +12,7 @@ public class Main {
 
     private static DynamoManager manager = DynamoManager.getInstance();
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args)  {
         showMenu();
     }
 
@@ -456,7 +456,7 @@ public class Main {
     }
     public static void showRanking(){
         List<RankingTO> ranking = manager.getRanking();
-        ranking.stream().sorted(Comparator.comparing(RankingTO::getIncidencias)).forEach(rankingTO -> {
+        ranking.stream().sorted(Comparator.comparing(RankingTO::getIncidencias).reversed()).forEach(rankingTO -> {
             System.out.println("Username: "+rankingTO.getUsername()+" Indicendias: "+rankingTO.getIncidencias());
         });
     }
